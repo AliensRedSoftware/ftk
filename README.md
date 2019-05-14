@@ -89,7 +89,7 @@ ftk - фреймворк
     * Загрузка темы
     * база данных mysql
     * Модули
-    * [bftk - Упрощенной билдер](https://github.com/AliensRedSoftware/bftk"Упрощенной билдер")
+    [bftk - Упрощенной билдер](https://github.com/AliensRedSoftware/bftk"Упрощенной билдер")
 
 ### О ftk ###
 * FTK Framework
