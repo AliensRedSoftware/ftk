@@ -9,8 +9,8 @@ class ftk extends xlib {
     }
 
     function execute($head, $body, $footer) {
-        $head->execute('test');
-        $body->execute();
+        $head->execute('Ошибка страница не найдена!');
+        $body->layout_404();
         $footer->execute();
     }
 }

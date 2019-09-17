@@ -29,8 +29,4 @@ class controller {
 		}
 		return $this->url;
 	}
-<<<<<<< HEAD
 }
-=======
-}  
->>>>>>> 6685676f20f60aaee269b46f1fa286d2640d3c19

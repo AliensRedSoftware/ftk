@@ -9,8 +9,8 @@ class ftk extends xlib {
     }
 
     function execute($head, $body, $footer) {
-        $head->execute('test');
-        $body->execute();
+        $head->execute('Ошибка доступ к папкам запрещен!');
+        $body->layout_403();
         $footer->execute();
     }
 }
