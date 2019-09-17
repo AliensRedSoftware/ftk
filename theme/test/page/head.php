@@ -1,12 +1,12 @@
 <?php
 class head extends xlib {
     function execute ($title) {
+        $path = $this->get_theme();
         echo "<head>";
-        $this->setTitle($title);
+        echo "<title>$title</title>";
         $this->utf8();
         $this->description('');//О сайте
         $this->tag('');
-        $this->loader_css('css');
         echo "</head>";
     }
 }
