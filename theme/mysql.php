@@ -9,5 +9,5 @@ class mysql {
     public $ip = '127.0.0.1';
     public $user = 'root';
     public $password = 'root';
-    public $database = 'space_20893340_dbase';
+    public $database = 'ssspace_anime';
 }

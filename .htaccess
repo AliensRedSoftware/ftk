@@ -1,2 +1,52 @@
-ErrorDocument 404 /index.php
+AddType application/x-httpd-php .js
+AddHandler x-httpd-php5 .js
+
+<FilesMatch "\.js$">
+SetHandler application/x-httpd-php
+</FilesMatch>
+
+RewriteEngine On
+RewriteBase /
+RewriteCond %{REQUEST_URI} !^/(index\.php|^) [NC]
+RewriteCond %{REQUEST_URI} !\.(cssіjsіjpgіgifіpng)$
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L,QSA]
+
+#Сервер
+DirectoryIndex /index.php
 AddDefaultCharset UTF-8
+Options -Indexes
+ErrorDocument 404 /index.php
+ErrorDocument 403 /index.php
+
+#php
+php_value display_errors Off
+php_flag magic_quotes 1
+php_flag magic_quotes_gpc 1
+php_flag register_globals on
+php_value mbstring.http_input auto
+php_value date.timezone Asia/Novosibirsk
+
+#gzip
+<IfModule mod_deflate.c>
+AddOutputFilterByType DEFLATE text/html text/plain text/xml application/xml application/xhtml+xml text/javascript text/css application/x-javascript
+BrowserMatch ^Mozilla/4 gzip-only-text/html
+BrowserMatch ^Mozilla/4.0[678] no-gzip
+BrowserMatch bMSIE !no-gzip !gzip-only-text/html
+<ifmodule mod_gzip.c>
+mod_gzip_on Yes
+mod_gzip_item_include file \.js$
+mod_gzip_item_include file \.css$ </ifmodule>
+</IfModule>
+
+#Кэширование
+<IfModule mod_expires.c>
+ExpiresActive On
+ExpiresByType application/javascript "access plus 7 days"
+ExpiresByType text/javascript "access plus 7 days"
+ExpiresByType text/css "access plus 7 days"
+ExpiresByType image/gif "access plus 7 days"
+ExpiresByType image/jpeg "access plus 7 days"
+ExpiresByType image/png "access plus 7 days"
+</IfModule>
