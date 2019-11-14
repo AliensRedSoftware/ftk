@@ -1,5 +1,6 @@
 <?php
 error_reporting(0);
+
 /**
  * Загрузка темы
  * -------------
@@ -17,6 +18,34 @@ class view extends controller {
 	}
 
 	/**
+	 * Установить загрузку view
+	 */
+	public function setDisabled ($enable) {
+		$GLOBALS['VIEW_ENABLE'] = $enable;
+	}
+
+	/**
+	 * Возвращаем загрузку view
+	 */
+	public function getDisabled () {
+		return $GLOBALS['VIEW_ENABLE'];
+	}
+
+	/**
+	 * Установить путь к теме
+	 */
+	public function setPath ($path) {
+		$GLOBALS['VIEW_PATH'] = $path;
+	}
+
+	/**
+	 * Возвращаем путь к теме
+	 */
+	public function getPath () {
+		return $GLOBALS['VIEW_PATH'];
+	}
+
+	/**
 	 * Загрузка темы
 	 * -------------
 	 */
@@ -25,8 +54,10 @@ class view extends controller {
 		$options = new options();
 		$this->theme = $options->theme;//Установка вар
 		$this->log = $options->log;//Установка log
+		if ($this->getDisabled()) {
+			die();
+		}
 		$file = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'theme' . DIRECTORY_SEPARATOR . $this->theme . DIRECTORY_SEPARATOR . 'uri' . DIRECTORY_SEPARATOR . $uri_folder . $uri . '.php';
-    	//$file = explode('?', $file)[0] . '.php';
     	$file = explode('?', $file);
 		if ($file[1]) {
 			$file[0] .= '.php';

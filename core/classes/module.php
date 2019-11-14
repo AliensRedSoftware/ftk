@@ -9,17 +9,24 @@ class module extends options {
 
 	function __construct () {
     	global $startedModules;
-    	$startedModules = [];
+    	global $foo;
+    	$foo = [];
+    	$startedModules = ['xlib'];
     }
+
 	/**
 	 * Загрузка модулей
+	 * ----------------
 	 */
 	public function load () {
     	global $startedModules;
-		$foo = [];
-		$dirmodules = scandir($this->getTheme_path() . 'plugins');
-    	array_shift($dirmodules);
-    	array_shift($dirmodules);
+		global $foo;
+		$dirmodules = [];
+		foreach (scandir($this->getTheme_path() . 'plugins') as $value) {
+			if ($value != '.' && $value != '..' && $value != '.git') {
+				array_push($dirmodules, $value);
+			}
+		}
 		foreach ($dirmodules as $module) {
 			if ($startedModules[0] == $module) {
 				array_push($foo, $module);
@@ -35,29 +42,36 @@ class module extends options {
 			}
 		}
     	if ($startedModules[0]) {
-        	$this->load();
-        }
-    	$i = -1;
+        	return $this->load();
+        }        
+        $startedModules = [];
     	foreach ($dirmodules as $module) {
-        	$i++;
-            foreach ($foo as $sel) {
-            	if ($sel == $module) {
-					unset($dirmodules[$i]);
-                }
+            if (!$this->isModules($module, $foo)) {
+            	array_push($startedModules, $module);
+            	if ($this->log) {
+					echo "<p>[Инфо][Плагин][Загружен] => \"{$module}\" :)</p>";
+				}
+            	require_once $this->path($module);
+            	if(is_callable(array($module, 'execute'))) {
+					$func = array($module, 'execute');
+					$func();
+				}
             }
         }
-		foreach ($dirmodules as $module) {
-			array_push($foo, $module);
-			if ($this->log) {
-				echo "<p>[Инфо][Плагин][Загружен] => \"{$module}\" :)</p>";
-			}
-			require_once $this->path($module);
-			if(is_callable(array($module, 'execute'))) {
-				$func = array($module, 'execute');
-				$func();
+        $foo[] = $startedModules;
+		define('modules', $foo);
+	}
+
+	/**
+	 * Возвращает существование модуля
+	 */
+	public function isModules ($module, $modules = []) {
+		foreach ($modules as $selected) {
+			if ($selected == $module) {
+				return true;
 			}
 		}
-		define('modules', $foo);
+		return false;
 	}
 
 	/**

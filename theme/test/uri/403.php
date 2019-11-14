@@ -7,7 +7,7 @@ class ftk extends xlib {
 		$footer = new footer();
 		$this->execute($head, $body, $footer);
 	}
-	
+
 	/**
 	 * Выполнение
 	 */

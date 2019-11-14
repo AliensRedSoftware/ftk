@@ -5,7 +5,6 @@ error_reporting(0);
  * Загрузка модулей
  */
 function loadedModules () {
-	autoloader('module');
 	$module = new module();
 	$module->load();
 }
@@ -14,12 +13,10 @@ function loadedModules () {
  * Загрузка модулей и отоброжение
  */
 function load () {
-	autoloader('module');
 	$module = new module();
 	$module->load();
-	autoloader('view');
 	$view = new view();
-	$view->set_theme();
+    $view->set_theme();
 }
 
 /**
@@ -32,7 +29,7 @@ function autoloader ($class) {
     //-----------------------------------
     $execute = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'classes' . DIRECTORY_SEPARATOR . $class . '.php';
         if (file_exists($execute)) {
-            if($log == true) {
+            if($log) {
                 echo "<p>[Инфо][Подгрузка] Загружена => \"{$class}\" :)</p>";
             }
             require_once $execute;
@@ -41,6 +38,8 @@ function autoloader ($class) {
     return false;
 }
 spl_autoload_register('autoloader');
+autoloader('module');
+autoloader('view');
 if(!$_GET || $_GET['page'] >= 0 && isset($_GET['page'])) {
 	load();
 } else {
